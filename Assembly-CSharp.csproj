@@ -45,6 +45,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Level\Scripts\Background.cs" />
+     <Compile Include="Assets\Level\Scripts\BloodDrop.cs" />
+     <Compile Include="Assets\Level\Scripts\Bullet.cs" />
+     <Compile Include="Assets\Level\Scripts\EnemyScript.cs" />
+     <Compile Include="Assets\Level\Scripts\Gun.cs" />
+     <Compile Include="Assets\Level\Scripts\PlayerBehaviourScript.cs" />
      <Compile Include="Assets\MainMenu\Scripts\MainMenu.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
