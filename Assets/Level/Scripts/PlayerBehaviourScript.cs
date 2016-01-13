@@ -7,7 +7,7 @@ public class PlayerBehaviourScript : MonoBehaviour {
 
     public GameObject blood;
 
-    private Rigidbody2D rb;
+    //private Rigidbody2D rb;
 
     private int health = 3;
 
@@ -15,14 +15,14 @@ public class PlayerBehaviourScript : MonoBehaviour {
     void FixedUpdate()
     {
         
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
        
 
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        //float moveHorizontal = Input.GetAxis("Horizontal");
+        //float moveVertical = Input.GetAxis("Vertical");
 
-        rb.AddForce(gameObject.transform.up*speed*moveVertical);
-        rb.AddForce(gameObject.transform.right * speed * moveHorizontal);
+        //rb.AddForce(gameObject.transform.up*speed*moveVertical);
+        //rb.AddForce(gameObject.transform.right * speed * moveHorizontal);
     }
 
     void OnExplode()
