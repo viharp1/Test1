@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerBehaviourScript : MonoBehaviour {
@@ -6,6 +7,8 @@ public class PlayerBehaviourScript : MonoBehaviour {
     public float speed;
 
     public GameObject blood;
+
+    public Slider healthBarSlider;
 
     //private Rigidbody2D rb;
 
@@ -48,16 +51,20 @@ public class PlayerBehaviourScript : MonoBehaviour {
     }
 
     void takeDamage() {
-        if (health == 1) {
+        health--;
+        if (health == 0) {
             // TODO: end the game
             Destroy(gameObject, 1);
-        } else {
-            health--;
         }
+    }
+
+    public int getHealth ()
+    {
+        return health;
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        healthBarSlider.value = health;
+    }
 }

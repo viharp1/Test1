@@ -16,9 +16,13 @@ public class ShooterMovement : MonoBehaviour {
     private bool hasFired;
     private int frameNum;
     private Vector3 initialPoint;
+    private AudioSource shootSound;
+    private float moveVertical;
+    private float moveHorizontal;
 
     void Start()
     {
+        shootSound = GetComponent<AudioSource>();
         centerPt = rt.anchoredPosition;
         // Get the initial position of the joystick
         initialPoint = rt.position;
@@ -44,8 +48,32 @@ public class ShooterMovement : MonoBehaviour {
                 i++;
             }
             if (!found)
-            {   // reset the joystick to the center
-                rt.anchoredPosition = centerPt;
+            {   // continue firing in previous direction
+                if (!hasFired)
+                {
+                    moveHorizontal = (rt.anchoredPosition.x - centerPt.x) / radius;
+                    moveVertical = (rt.anchoredPosition.y - centerPt.y) / radius;
+                    float angle = Mathf.Atan(moveVertical / moveHorizontal) * Mathf.Rad2Deg;
+                    // If the fire button is pressed...
+                    if (moveHorizontal != 0 || moveVertical != 0)
+                    {
+                        hasFired = true;
+                        // ... set the animator Shoot trigger parameter and play the audioclip.
+                        //anim.SetTrigger("Shoot");
+
+                        Rigidbody2D bulletInstance = Instantiate(bullet, gun.transform.position, Quaternion.Euler(new Vector3(0, 0, 90 + angle))) as Rigidbody2D;
+                        Vector2 velocity = new Vector2(moveHorizontal, moveVertical);
+                        velocity.Normalize();
+                        velocity *= speed;
+                        shootSound.Play();
+                        bulletInstance.velocity = velocity;
+                    }
+                }
+                else if (Time.frameCount - frameNum >= 20)
+                {
+                    frameNum = Time.frameCount;
+                    hasFired = false;
+                }
                 return;
             }
 
@@ -56,7 +84,7 @@ public class ShooterMovement : MonoBehaviour {
 
                 if (Time.frameCount % 30 == 0)
                     {
-                        text.text = "joystick loc is (" + rt.position.x + " , " + rt.position.y + ")\n" + "anchoredPos is (" + rt.anchoredPosition.x + " , " + rt.anchoredPosition.y + ")\n" + "location is (" + worldTouch.x + " , " + worldTouch.y + ")";
+                        //text.text = "joystick loc is (" + rt.position.x + " , " + rt.position.y + ")\n" + "anchoredPos is (" + rt.anchoredPosition.x + " , " + rt.anchoredPosition.y + ")\n" + "location is (" + worldTouch.x + " , " + worldTouch.y + ")";
                     }
                     if (inBounds(worldTouch.x, worldTouch.y))
                     {
@@ -68,26 +96,27 @@ public class ShooterMovement : MonoBehaviour {
 
                         if (!hasFired)
                         {
-                            float moveHorizontal = (rt.anchoredPosition.x - centerPt.x) / radius;
-                            float moveVertical = (rt.anchoredPosition.y -centerPt.y) / radius;
+                            moveHorizontal = (rt.anchoredPosition.x - centerPt.x) / radius;
+                            moveVertical = (rt.anchoredPosition.y -centerPt.y) / radius;
                             float angle = Mathf.Atan(moveVertical / moveHorizontal) * Mathf.Rad2Deg;
                             // If the fire button is pressed...
                             if (moveHorizontal != 0 || moveVertical != 0)
                             {
                             if (Time.frameCount % 50 == 0)
                             {
-                                text.text = "FIRED with x speed of " + moveHorizontal + " y speed of " + moveVertical + " and angle of " + angle;
+                                //text.text = "FIRED with x speed of " + moveHorizontal + " y speed of " + moveVertical + " and angle of " + angle;
                             }
                                 hasFired = true;
                                 // ... set the animator Shoot trigger parameter and play the audioclip.
                                 //anim.SetTrigger("Shoot");
-                                //GetComponent<AudioSource>().Play();
+                                
                                 // ... instantiate the rocket facing right and set it's velocity to the right. 
 
                                 Rigidbody2D bulletInstance = Instantiate(bullet, gun.transform.position, Quaternion.Euler(new Vector3(0, 0, 90+angle))) as Rigidbody2D;
                             Vector2 velocity = new Vector2(moveHorizontal, moveVertical);
                             velocity.Normalize();
                             velocity *= speed;
+                            shootSound.Play();
                             bulletInstance.velocity = velocity;
                             }
                         }
@@ -101,9 +130,32 @@ public class ShooterMovement : MonoBehaviour {
             
         } else
         {
-            // reset the joystick to the center
-            rt.anchoredPosition = centerPt;
-            text.text = "No touching right now and centerPt is (" + centerPt.x + "," + centerPt.y + ")";
+            // the user is not touching the screen currently
+            if (!hasFired)
+            {
+                float angle = Mathf.Atan(moveVertical / moveHorizontal) * Mathf.Rad2Deg;
+                // If the fire button is pressed...
+                if (moveHorizontal != 0 || moveVertical != 0)
+                {
+                    hasFired = true;
+                    // ... set the animator Shoot trigger parameter and play the audioclip.
+                    //anim.SetTrigger("Shoot");
+
+                    Rigidbody2D bulletInstance = Instantiate(bullet, gun.transform.position, Quaternion.Euler(new Vector3(0, 0, 90 + angle))) as Rigidbody2D;
+                    Vector2 velocity = new Vector2(moveHorizontal, moveVertical);
+                    velocity.Normalize();
+                    velocity *= speed;
+                    shootSound.Play();
+                    bulletInstance.velocity = velocity;
+                }
+            }
+            else if (Time.frameCount - frameNum >= 20)
+            {
+                frameNum = Time.frameCount;
+                hasFired = false;
+            }
+
+
         }
     }
 

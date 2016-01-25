@@ -65,10 +65,13 @@
     <Compile Include="Assets\Level\Scripts\Background.cs" />
     <Compile Include="Assets\Level\Scripts\BloodDrop.cs" />
     <Compile Include="Assets\Level\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Level\Scripts\EnemyManagerScript.cs" />
     <Compile Include="Assets\Level\Scripts\EnemyScript.cs" />
+    <Compile Include="Assets\Level\Scripts\GameOverManager.cs" />
     <Compile Include="Assets\Level\Scripts\Gun.cs" />
     <Compile Include="Assets\Level\Scripts\PlayerBehaviourScript.cs" />
     <Compile Include="Assets\Level\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Level\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Level\Scripts\ShooterMovement.cs" />
     <Compile Include="Assets\MainMenu\Scripts\MainMenu.cs" />
   </ItemGroup>

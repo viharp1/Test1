@@ -17,9 +17,23 @@ public class EnemyScript : MonoBehaviour {
     public void Hurt() {
    		//TODO: slow the enemy for a second?
     	if (health == 1) {
+            GetComponent<AudioSource>().Play();
     		Destroy(gameObject);
-    	} else {
+            ScoreManager.score += 30;
+        }
+        else {
     		health--;
-    	}
+            ScoreManager.score += 10;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        // If we hit the player, destroy the enemy
+        if (col.tag == "Player")
+        {
+            GetComponent<AudioSource>().Play();
+            Destroy(gameObject);
+        }
     }
 }
